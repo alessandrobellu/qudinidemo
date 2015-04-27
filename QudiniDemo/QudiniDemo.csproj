@@ -130,6 +130,7 @@
     <Compile Include="Converters\DateTimeToNiceStringConverter.cs" />
     <Compile Include="Converters\MailToImageConverter.cs" />
     <Compile Include="Helpers\Commands.cs" />
+    <Compile Include="Helpers\DispatcherHelpers.cs" />
     <Compile Include="Helpers\HttpManager.cs" />
     <Compile Include="Helpers\VisualStateHelpers.cs" />
     <Compile Include="Models\Models.cs" />

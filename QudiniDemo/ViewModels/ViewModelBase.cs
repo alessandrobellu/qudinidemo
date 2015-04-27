@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QudiniDemo.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,20 +20,15 @@ namespace QudiniDemo.ViewModels
 		// Interface needed to notify the View of property changes
 		public void OnPropertyChanged([CallerMemberName]string propertyName = "")
 		{
-			var notifyPropertyChangedAction = (Action)(() =>
-			{
-				PropertyChangedEventHandler handler = PropertyChanged;
+            DispatcherHelper.InvokeOnUIThread((Action)(() =>
+            {
+                PropertyChangedEventHandler handler = PropertyChanged;
 
-				if (handler != null)
-				{
-					handler(this, new PropertyChangedEventArgs(propertyName));
-				}
-			});
-
-			var dispatcher = Window.Current.Dispatcher;
-
-			if (dispatcher.HasThreadAccess) notifyPropertyChangedAction();
-			else dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => notifyPropertyChangedAction());
+                if (handler != null)
+                {
+                    handler(this, new PropertyChangedEventArgs(propertyName));
+                }
+            }));
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
