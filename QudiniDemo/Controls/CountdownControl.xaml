@@ -1,0 +1,106 @@
+﻿<UserControl
+    x:Class="QudiniDemo.Controls.CountdownControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QudiniDemo.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="400"
+    d:DesignWidth="400">
+
+	<Grid x:Name="LayoutRoot">
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="CountdownStates">
+				<VisualStateGroup.Transitions>
+					<VisualTransition From="Loading" To="CountDown">
+						<Storyboard>
+							<DoubleAnimation To="0" BeginTime="0" Duration="0:0:1"
+											 EnableDependentAnimation="True"
+											 Storyboard.TargetName="LoadingEllipse" Storyboard.TargetProperty="Height" />
+
+							<DoubleAnimation To="0" BeginTime="0" Duration="0:0:1"
+											 EnableDependentAnimation="True"
+											 Storyboard.TargetName="LoadingEllipse" Storyboard.TargetProperty="Width" />
+
+
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoadingGrid" Storyboard.TargetProperty="Visibility">
+								<DiscreteObjectKeyFrame Value="Collapsed" KeyTime="0:0:1" />
+							</ObjectAnimationUsingKeyFrames>
+
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CountdownGrid" Storyboard.TargetProperty="Visibility">
+								<DiscreteObjectKeyFrame Value="Visible" KeyTime="0:0:1" />
+							</ObjectAnimationUsingKeyFrames>
+
+
+							<DoubleAnimation From="0" To="360" BeginTime="0:0:1" Duration="0:0:0.5" EnableDependentAnimation="True"
+											 Storyboard.TargetName="pieSlice" Storyboard.TargetProperty="Angle" />
+						</Storyboard>
+					</VisualTransition>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="Countdown">
+					<Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoadingGrid" Storyboard.TargetProperty="Visibility">
+							<DiscreteObjectKeyFrame Value="Collapsed" KeyTime="0" />
+						</ObjectAnimationUsingKeyFrames>
+
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CountdownGrid" Storyboard.TargetProperty="Visibility">
+							<DiscreteObjectKeyFrame Value="Visible" KeyTime="0" />
+						</ObjectAnimationUsingKeyFrames>
+
+						<DoubleAnimation BeginTime="0" Duration="0:0:30" 
+										 From="359" To="0"
+										 EnableDependentAnimation="True"
+										 Storyboard.TargetName="pieSlice"
+										 Storyboard.TargetProperty="Angle" />
+
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="Loading">
+					<Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoadingGrid" Storyboard.TargetProperty="Visibility">
+							<DiscreteObjectKeyFrame Value="Visible" KeyTime="0" />
+						</ObjectAnimationUsingKeyFrames>
+
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CountdownGrid" Storyboard.TargetProperty="Visibility">
+							<DiscreteObjectKeyFrame Value="Collapsed" KeyTime="0" />
+						</ObjectAnimationUsingKeyFrames>
+
+						<DoubleAnimation From="50" To="300" RepeatBehavior="Forever"
+										 BeginTime="0" Duration="0:0:2"
+										 EnableDependentAnimation="True" AutoReverse="True"
+										 Storyboard.TargetName="LoadingEllipse" Storyboard.TargetProperty="Height">
+							<DoubleAnimation.EasingFunction>
+								<BounceEase Bounces="2" />
+							</DoubleAnimation.EasingFunction>
+						</DoubleAnimation>
+
+
+						<DoubleAnimation From="50" To="300"  RepeatBehavior="Forever"
+										 BeginTime="0" Duration="0:0:2"
+										 EnableDependentAnimation="True" AutoReverse="True"
+										 Storyboard.TargetName="LoadingEllipse" Storyboard.TargetProperty="Width">
+							<DoubleAnimation.EasingFunction>
+								<BounceEase Bounces="2" />
+							</DoubleAnimation.EasingFunction>
+						</DoubleAnimation>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+
+		<Grid x:Name="CountdownGrid" Visibility="Collapsed">
+			<Ellipse Fill="{StaticResource QudiniRed}" />
+			<Ellipse Fill="White" />
+			<Ellipse Fill="White" />
+			<local:PieSlice x:Name="pieSlice" StartAngle="0" Angle="360" Radius="190" Fill="{StaticResource QudiniOrange}" />
+		</Grid>
+
+
+		<Grid x:Name="LoadingGrid" Visibility="Visible">
+			<Ellipse Fill="White" />
+			<Ellipse x:Name="LoadingEllipse" Fill="{StaticResource QudiniRed}" Height="50" Width="50" />
+		</Grid>
+
+	</Grid>
+</UserControl>
